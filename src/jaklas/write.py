@@ -137,6 +137,11 @@ def write(
         for c in colors:
             setattr(las, c, scale_data(c, point_data[c], data_min_max.get(c)))
 
+    remaining_std_dimensions = standard_dimensions - {"x", "X", "y", "Y", "z", "Z", "gps_time", "intensity", "classification", "red", "green", "blue"}
+    for std in remaining_std_dimensions:
+        if std in point_format_type and std in point_data:
+            setattr(las, std, point_data[std])
+
     for dim in extra_dimensions:
         setattr(las, dim, point_data[dim])
 
